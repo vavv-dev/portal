@@ -1,0 +1,13 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="d-flex align-items-center">
+    {% if page_content_block.value.icon %}
+        {% image page_content_block.value.icon height-40 class="me-3" alt="icon" %}
+    {% endif %}
+    <div class="flex-grow-1">{{ page_content_block.value.description }}</div>
+    <p class="align-self-end">
+        <a href="{% pageurl page_content_block.value.page_content_home %}"
+           class="small text-decoration-none">
+            <i class="me-1 fa-solid fa-magnifying-glass"></i>모두 보기
+        </a>
+    </p>
+</div>

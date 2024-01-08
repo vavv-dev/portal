@@ -1,0 +1,7 @@
+-r base.in
+
+pip-tools
+django-stubs
+black
+isort
+ipython

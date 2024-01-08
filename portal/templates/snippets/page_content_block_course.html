@@ -1,0 +1,107 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<style>
+    /*
+     * calculate card width/height before swipejs loaded
+     */
+    .course-swiper .swiper-slide {
+        width: var(--card-width) !important;
+        margin-right: var(--card-gutter);
+    }
+    .course-swiper .swiper-slide .card-img-top {
+        width: var(--card-width);
+        height: calc(var(--card-width) * 160 / 300);
+    }
+
+    @media (max-width: 767px) {
+        .course-swiper .swiper-slide,
+        .course-swiper .swiper-slide .card-img-top {
+            --card-gutter: 16px;
+            --card-width: 100%;
+        }
+    }
+    @media (min-width: 768px) {
+        .course-swiper .swiper-slide,
+        .course-swiper .swiper-slide .card-img-top {
+            --card-gutter: calc(16px * 1);
+            --card-width: calc((720px - var(--bs-gutter-x) - var(--card-gutter) * 1) / 2);
+        }
+    }
+    @media (min-width: 992px) {
+        .course-swiper .swiper-slide,
+        .course-swiper .swiper-slide .card-img-top {
+            --card-gutter: calc(16px * 1);
+            --card-width: calc((960px - var(--bs-gutter-x) - var(--card-gutter) * 2) / 3);
+        }
+    }
+    @media (min-width: 1200px) {
+        .course-swiper .swiper-slide,
+        .course-swiper .swiper-slide .card-img-top {
+            --card-gutter: calc(16px * 2);
+            --card-width: calc((1140px - var(--bs-gutter-x) - var(--card-gutter) * 3) / 4);
+        }
+    }
+    @media (min-width: 1400px) {
+        .course-swiper .swiper-slide,
+        .course-swiper .swiper-slide .card-img-top {
+            --card-gutter: calc(16px * 3);
+            --card-width: calc((1320px - var(--bs-gutter-x) - var(--card-gutter) * 3) / 4);
+        }
+    }
+</style>
+<div class="swiper course-swiper position-relative">
+    <div class="swiper-wrapper d-flex pt-3 pb-5">
+        {% for page_content in page_content_block.value.page_content %}
+            <div class="swiper-slide flex-shrink-0" style="height: initial;">{% include "snippets/course_card.html" %}</div>
+        {% endfor %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+    <script>
+          (function() {
+            const swiper = document.currentScript.parentNode;
+            new Swiper(swiper, {
+
+              slidesPerView: 1,
+              spaceBetween: 16 * 1,
+
+              speed: 1 * 1000,
+              centeredSlides: false,
+              loop: true,
+              autoplay: {
+                delay: 2500,
+                disableOnInteraction: true,
+              },
+
+              // reponsive
+              breakpoints: {
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 16 * 1,
+                },
+                992: {
+                  slidesPerView: 3,
+                  spaceBetween: 16 * 1,
+                },
+                1200: {
+                  slidesPerView: 4,
+                  spaceBetween: 16 * 2,
+                },
+                1400: {
+                  slidesPerView: 4,
+                  spaceBetween: 16 * 3,
+                },
+              },
+              pagination: {
+                el: swiper.querySelector(".swiper-pagination"),
+                clickable: true,
+              },
+
+              navigation: {
+                nextEl: swiper.querySelector(".swiper-button-next"),
+                prevEl: swiper.querySelector(".swiper-button-prev"),
+              },
+            });
+          }());
+    </script>
+</div>

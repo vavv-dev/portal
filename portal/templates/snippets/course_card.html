@@ -1,0 +1,31 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="card h-100 shadow card-span border border-light">
+    {% image page_content.specific.cover fill-300x160 as cover %}
+    <img src="{{ cover.url }}" class="card-img-top" alt="cover"/>
+    <div class="card-body">
+        <a class="text-primary shadow-none link-offset-2 link-offset-3-hover text-decoration-none"
+           href="{% pageurl page_content %}"
+           role="button">
+            <h5 class="fw-light heading-color text-truncate"
+                title="{{ page_content.title }}">{{ page_content.title }}</h5>
+        </a>
+        <div class="small">
+            {% if page_content.specific.categories %}
+                <div class="mb-1 text-secondary">
+                    <a class="text-truncate text-decoration-none d-block"
+                       href="{% pageurl page_content.get_parent %}?search={{ page_content.specific.categories.first.name }}">
+                        {{ page_content.specific.categories.first.breadcrumbs_display }}
+                    </a>
+                </div>
+            {% endif %}
+            {% for tag in page_content.specific.tags.all %}
+                <a href="{% pageurl page_content.get_parent %}?search={{ tag.name }}">
+                    <span class="badge me-1" style="background-color: {{ tag.color }};">{{ tag }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card-footer bg-transparent border-0 py-3 d-flex justify-content-end">
+        <span>{{ page_content.specific.created_date|date:'Y년 m월' }}</span>
+    </div>
+</div>
