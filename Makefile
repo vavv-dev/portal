@@ -26,4 +26,5 @@ provision: requirements
 	python manage.py migrate
 	python manage.py initialize_page_content
 	@echo 'from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser("vavv", "vavv@example.com", "vavv") if not User.objects.filter(username="vavv").exists() else None' | python manage.py shell
+	mkdir portal/static
 
