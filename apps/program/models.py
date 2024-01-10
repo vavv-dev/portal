@@ -28,7 +28,7 @@ class Program(AbstractDetailPage):
     # fmt: off
 
     sku = CharField("프로그램 코드", max_length=50, default=secure_redeem_code, unique=True)
-    cover = ForeignKey("wagtailimages.Image", null=True, on_delete=SET_NULL, verbose_name="커버")
+    cover = ForeignKey("wagtailimages.Image", null=True, blank=True, on_delete=SET_NULL, verbose_name="커버")
     enrollment_days = SmallIntegerField("수강 기간 일 수", default=60)
     price = PositiveBigIntegerField("가격", default=0)
 
