@@ -1,0 +1,35 @@
+{% extends "base/page_detail.html" %}
+{% load wagtailcore_tags crispy_forms_tags %}
+{% block extra_head %}
+    <style>
+        .survey-box form * {
+            line-height: 2rem;
+        }
+        .survey-box .form-label {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            margin-left: 1.5rem;
+        }
+        .survey-box .form-label::before {
+            content: "Q. ";
+            font-weight: 400;
+            margin-left: -1.5rem;
+        }
+        .survey-box .form-check-label, .form-select option {
+            color: #646464;
+        }
+        .survey-box .form-text {
+            color: darkgreen;
+            margin-top: 1rem;
+        }
+    </style>
+    {{ block.super }}
+{% endblock extra_head %}
+{% block child_content %}
+    
+{% endblock child_content %}
+{% block extra_body %}
+    {{ block.super }}
+{% endblock extra_body %}
+
