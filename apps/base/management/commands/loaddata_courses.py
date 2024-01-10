@@ -4,7 +4,7 @@ from openpyxl import load_workbook
 
 from apps.base.models import Category
 from apps.course.models import Course, CourseHome
-from apps.program.models import Program, ProgramHome
+from apps.program.models import Program, ProgramCourse, ProgramHome
 
 
 class Command(BaseCommand):
@@ -81,11 +81,11 @@ class Command(BaseCommand):
                 # add category
                 program.categories.add(category)
 
+                # add program courses
+                program.courses.get_or_create(program=program, course=course)
+
                 program.save()
                 program.save_revision().publish()
-
-                # add program courses
-                program.courses.add(course)
 
         self.stdout.write(
             self.style.SUCCESS(f"Data loaded successfully from {excel_file} to Course model")
