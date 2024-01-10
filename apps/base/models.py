@@ -14,7 +14,6 @@ from django.db.models import (
     URLField,
 )
 from django.db.models.functions import Cast
-from django.forms.widgets import ChoiceWidget
 from django.http import HttpResponseRedirect
 from django_comments_xtd import get_model as get_comment_model
 from django_tables2 import RequestConfig
@@ -24,13 +23,12 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from star_ratings.models import Rating
 from taggit.models import ItemBase, TagBase
-from treenode.admin import TreeNodeModelAdmin
 from treenode.models import TreeNodeModel
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, MultipleChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.blocks import RawHTMLBlock, RichTextBlock
 from wagtail.contrib.forms.models import AbstractFormField
 from wagtail.fields import StreamField
-from wagtail.models import Orderable, Page, ParentalKey
+from wagtail.models import Page, ParentalKey
 from wagtail.search.index import AutocompleteField, Indexed, RelatedFields, SearchField
 from wagtail.snippets.models import register_snippet
 

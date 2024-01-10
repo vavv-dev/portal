@@ -3,6 +3,7 @@ import random
 import string
 
 from django.db.models import (
+    BooleanField,
     CharField,
     DateField,
     DateTimeField,
@@ -11,6 +12,7 @@ from django.db.models import (
     TextField,
     URLField,
 )
+from django.forms import Field
 from django.utils.timezone import make_aware
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import StreamField
@@ -54,7 +56,8 @@ class Course(AbstractDetailPage):
     contents = TextField("목차", null=True, blank=True)
     effort = CharField("학습 시간", max_length=20, null=True, blank=True)
     level = CharField("레벨", max_length=20, null=True, blank=True)
-    ncs_unit = CharField("NCS 분류", max_length=254, null=True, blank=True)
+    ncs_unit = ForeignKey("ncs.NcsClassification", on_delete=SET_NULL, null=True, blank=True, verbose_name="NCS 분류")
+    mobile = BooleanField("모바일", default=True)
 
     tuition_assistances = StreamField(
         [("tuition_assistance", TuitionAssistanceBlock())],
@@ -80,6 +83,7 @@ class Course(AbstractDetailPage):
 
     esimsa_code = CharField("esimsa 코드", max_length=50, null=True, blank=True, validators=[validate_esimsa_code])
     esimsa_code_expiration = DateTimeField("과정 승인 만료", null=True, blank=True)
+    hrdnet_code = CharField("hrdnet 코드", max_length=50, null=True, blank=True)
 
     # fmt: on
 
@@ -98,11 +102,13 @@ class Course(AbstractDetailPage):
                 FieldPanel("effort"),
                 FieldPanel("level"),
                 FieldPanel("ncs_unit"),
+                FieldPanel("mobile"),
                 FieldPanel("tuition_assistances"),
                 FieldPanel("tutors"),
                 FieldPanel("textbooks"),
                 FieldPanel("esimsa_code"),
                 FieldPanel("esimsa_code_expiration"),
+                FieldPanel("hrdnet_code"),
             ],
             heading="과정 정보",
         )

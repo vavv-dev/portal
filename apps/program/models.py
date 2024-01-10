@@ -42,7 +42,7 @@ class Program(AbstractDetailPage):
                 FieldPanel("cover"),
                 FieldPanel("enrollment_days"),
                 FieldPanel("price"),
-                MultipleChooserPanel("related_programs", "related_program", label="관련 과정"),
+                MultipleChooserPanel("related_programs", "related_program", label="관련 프로그램"),
             ],
             heading="프로그램 설정",
         )
