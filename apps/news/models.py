@@ -14,6 +14,11 @@ class NewsHome(AbstractPageHome):
     def get_landing_page_template(self, *args, **kwargs):
         return self.get_template(*args, **kwargs)
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['newspages'] = self.get_children().live().order_by("-id")[0:6]
+        return context
+
 
 class News(AbstractDetailPage):
     class Meta:

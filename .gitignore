@@ -37,5 +37,5 @@
 # django
 db.sqlite3
 media
-static
-!apps/comments_xtd/django_comments_xtd/static/
+# static
+# !apps/comments_xtd/django_comments_xtd/static/
