@@ -8,12 +8,6 @@ class NewsHome(AbstractPageHome):
 
     subpage_types = ["News"]
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request)
-        newspages = self.get_children().live().order_by("-first_published_at")
-        context["newspages"] = newspages
-        return context
-
     def get_template(self, request, *args, **kwargs):
         return "news/news_home.html"
 
