@@ -78,6 +78,8 @@ INSTALLED_APPS = [
     "apps.submit",  # form page
     "apps.course",
     "apps.program",
+    "apps.ncs",
+    "apps.flex",
     # "catalog",
     "apps.portal",
 ]
@@ -260,6 +262,7 @@ PAGE_CONTENT = (
     ("submit.SubmitHome", "양식"),
     ("course.CourseHome", "과정"),
     ("program.ProgramHome", "프로그램"),
+    ("flex.FlexHome", "플렉스"),
 )
 
 # import_export

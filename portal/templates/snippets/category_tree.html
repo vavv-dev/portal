@@ -1,0 +1,24 @@
+{% load wagtailcore_tags utils %}
+<ul class="nav nav-pills">
+    {% for class1 in category_tree %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false">{{ class1.node.name }}</a>
+            {% if class1.tree %}
+                <ul class="dropdown-menu">
+                    {% for class2 in class1.tree %}
+                        <li>
+                            <a class="dropdown-item {% if request.GET.search == class2.node.name %}active{% endif %}"
+                               href="{% pageurl page %}?search={{ class2.node.name }}">
+                                {{ class2.node.name }} {{ category_facets|get_item:class2.node.id|default:"" }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

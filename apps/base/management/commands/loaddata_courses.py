@@ -4,6 +4,7 @@ from openpyxl import load_workbook
 
 from apps.base.models import Category
 from apps.course.models import Course, CourseHome
+from apps.flex.models import Flex, FlexHome
 from apps.program.models import Program, ProgramHome
 
 
@@ -33,6 +34,11 @@ class Command(BaseCommand):
         if not program_home:
             raise ValueError("Program Home not exists")
 
+        # flex home
+        flex_home = FlexHome.objects.last()
+        if not flex_home:
+            raise ValueError("Flex Home not exists")
+
         def handle_duplicate_slug(model, slug):
             if model.objects.filter(slug=slug):
                 return f"{slug}-1"
@@ -61,7 +67,7 @@ class Command(BaseCommand):
                 # fix duplicate course
                 slug = handle_duplicate_slug(Course, slug)
 
-                course = Course(title=title, slug=slug)
+                course = Course(title=title, slug=slug, allow_rating=True, allow_comments=True)
                 course_home.add_child(instance=course)
 
                 # add category
@@ -70,22 +76,39 @@ class Command(BaseCommand):
                 course.save()
                 course.save_revision().publish()
 
-            # check program
+            # program
             if not Program.objects.filter(title=title, categories__name=category.name).exists():
                 # fix duplicate program
                 slug = handle_duplicate_slug(Program, slug)
 
-                program = Program(title=title, slug=slug)
+                program = Program(title=title, slug=slug, allow_rating=True, allow_comments=True)
                 program_home.add_child(instance=program)
 
                 # add category
                 program.categories.add(category)
 
+                # add program courses
+                program.courses.get_or_create(program=program, course=course)
+
                 program.save()
                 program.save_revision().publish()
 
-                # add program courses
-                program.courses.add(course)
+            # flex
+            if not Flex.objects.filter(title=title, categories__name=category.name).exists():
+                # fix duplicate flex
+                slug = handle_duplicate_slug(Flex, slug)
+
+                flex = Flex(title=title, slug=slug, allow_rating=True, allow_comments=True)
+                flex_home.add_child(instance=flex)
+
+                # add category
+                flex.categories.add(category)
+
+                # add flex courses
+                flex.courses.get_or_create(flex=flex, course=course)
+
+                flex.save()
+                flex.save_revision().publish()
 
         self.stdout.write(
             self.style.SUCCESS(f"Data loaded successfully from {excel_file} to Course model")

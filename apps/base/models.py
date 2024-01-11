@@ -6,6 +6,7 @@ from django.db.models import (
     CASCADE,
     CharField,
     F,
+    Count,
     ForeignKey,
     IntegerField,
     OuterRef,
@@ -14,7 +15,6 @@ from django.db.models import (
     URLField,
 )
 from django.db.models.functions import Cast
-from django.forms.widgets import ChoiceWidget
 from django.http import HttpResponseRedirect
 from django_comments_xtd import get_model as get_comment_model
 from django_tables2 import RequestConfig
@@ -24,14 +24,19 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalManyToManyField
 from star_ratings.models import Rating
 from taggit.models import ItemBase, TagBase
-from treenode.admin import TreeNodeModelAdmin
 from treenode.models import TreeNodeModel
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, MultipleChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.blocks import RawHTMLBlock, RichTextBlock
 from wagtail.contrib.forms.models import AbstractFormField
 from wagtail.fields import StreamField
-from wagtail.models import Orderable, Page, ParentalKey
-from wagtail.search.index import AutocompleteField, Indexed, RelatedFields, SearchField
+from wagtail.models import Page, ParentalKey
+from wagtail.search.index import (
+    AutocompleteField,
+    FilterField,
+    Indexed,
+    RelatedFields,
+    SearchField,
+)
 from wagtail.snippets.models import register_snippet
 
 from apps.base.blocks import BannerBlock
@@ -151,6 +156,18 @@ class AbstractPageHome(Page):
         if search:
             pages = pages.search(search)
 
+        # facet
+        subpage_type = self.subpage_type().lower()
+        category_facets = {
+            category["id"]: category["count"]
+            for category in Category.objects.filter(**{f"{subpage_type}__in": pages})
+            .annotate(count=Count(subpage_type))
+            .values("id", "count")
+            .distinct()
+        }
+        if category_facets:
+            context.update(category_tree=Category.tree, category_facets=category_facets)
+
         # django tables
         from .tables import PageTable
 
@@ -240,6 +257,8 @@ class AbstractDetailPage(Page, HitCountMixin):
         RelatedFields("tags", [SearchField("name")]),
         RelatedFields("categories", [SearchField("name")]),
         RelatedFields("owner", [SearchField("username"), SearchField("full_name")]),
+        # facet search
+        FilterField("categories"),
     ]
 
     # panel

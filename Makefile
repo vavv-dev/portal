@@ -25,6 +25,8 @@ requirements: pip.tools
 provision: requirements
 	python manage.py migrate
 	python manage.py initialize_page_content
+	python manage.py loaddata_ncs fixtures/ncs_20231129.xlsx
+	python manage.py loaddata_courses fixtures/course_list.xlsx
 	@echo 'from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser("vavv", "vavv@example.com", "vavv") if not User.objects.filter(username="vavv").exists() else None' | python manage.py shell
 	mkdir -p portal/static
 
