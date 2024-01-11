@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags utils %}
 {% load render_table from django_tables2 %}
 {% block extra_head %}
     {{ block.super }}
@@ -46,6 +46,9 @@
                 </div>
             </div>
         </div>
+        {% if category_tree %}
+            <div class="category my-5">{% include "snippets/category_tree.html" %}</div>
+        {% endif %}
         <div class="tables2 my-5">
             {% include "snippets/per_page.html" %}
             {% render_table page_table %}

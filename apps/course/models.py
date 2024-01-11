@@ -16,6 +16,7 @@ from django.forms import Field
 from django.utils.timezone import make_aware
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import StreamField
+from wagtail.search.index import SearchField
 
 from apps.base.models import AbstractPageHome, AbstractDetailPage
 from apps.base.utils import validate_esimsa_code

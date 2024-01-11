@@ -67,7 +67,7 @@ class Command(BaseCommand):
                 # fix duplicate course
                 slug = handle_duplicate_slug(Course, slug)
 
-                course = Course(title=title, slug=slug)
+                course = Course(title=title, slug=slug, allow_rating=True, allow_comments=True)
                 course_home.add_child(instance=course)
 
                 # add category
@@ -81,7 +81,7 @@ class Command(BaseCommand):
                 # fix duplicate program
                 slug = handle_duplicate_slug(Program, slug)
 
-                program = Program(title=title, slug=slug)
+                program = Program(title=title, slug=slug, allow_rating=True, allow_comments=True)
                 program_home.add_child(instance=program)
 
                 # add category
@@ -98,7 +98,7 @@ class Command(BaseCommand):
                 # fix duplicate flex
                 slug = handle_duplicate_slug(Flex, slug)
 
-                flex = Flex(title=title, slug=slug)
+                flex = Flex(title=title, slug=slug, allow_rating=True, allow_comments=True)
                 flex_home.add_child(instance=flex)
 
                 # add category

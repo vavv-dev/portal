@@ -17,3 +17,8 @@ def url_add_query(url, **kwargs):
 @register.filter
 def split(value, delimiter=","):
     return value.split(delimiter)
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
