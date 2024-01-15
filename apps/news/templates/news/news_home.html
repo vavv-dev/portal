@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
-{% load render_table from django_tables2 %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/news.css' %}" />
     {{ block.super }}
@@ -25,13 +24,45 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <div class="tables2 my-5">{% render_table page_table %}</div>
-        {% for news in newspages|slice:"0:2" %}
-            {{ news.title }}
-        {% endfor %}
-        {% for news in newspages|slice:"2:" %}
-            {{ news.title }}
-        {% endfor %}
+        <div class="news">
+            <div class="row row-cols-2 news-card-row">
+                {% for news in newspages|slice:"0:2" %}
+                    {% with news=news.specific %}
+                        <div class="col news-card-col">
+                            <div class="card news-card">
+                                <a href="{{ news.url }}">
+                                    <div class="news-image">
+                                        {% with news.main_image as main_image %}
+                                            {% if main_image %}
+                                                {% image main_image fill-700x350 %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    </div>
+                                    <div class="news-title-wrap">
+                                        <p class="news-title">{{ news.title }}</p>
+                                    </div>
+                                    <p class="news-date">{{ news.first_published_at|date:"Y. m. d" }}</p>
+                                </a>
+                            </div>
+                        </div>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+            <div class="row news-list-row">
+                {% for news in newspages|slice:"2:" %}
+                    <a href="{{ news.url }}">
+                        <div class="row news-list-one">
+                            <div class="col-9 news-list-col-title">
+                                <span class="news-title">{{ news.title }}</span>
+                            </div>
+                            <div class="col-3 news-list-col-date">
+                                <span class="news-date">{{ news.first_published_at|date:"Y. m. d" }}</span>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock content %}
 {% block extra_body %}
