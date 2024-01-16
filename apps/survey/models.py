@@ -12,6 +12,11 @@ class SurveyHome(AbstractPageHome):
 
     subpage_types = ["Survey"]
 
+    def get_template(self, request, *args, **kwargs):
+        return "survey/survey_home.html"
+
+    def get_landing_page_template(self, *args, **kwargs):
+        return self.get_template(*args, **kwargs)
 
 class Survey(AbstractForm, AbstractDetailPage):
     class Meta:

@@ -13,6 +13,16 @@ class SubmitHome(AbstractPageHome):
 
     subpage_types = ["Submit"]
 
+    def get_template(self, request, *args, **kwargs):
+        return "submit/submit_home.html"
+
+    def get_landing_page_template(self, *args, **kwargs):
+        return self.get_template(*args, **kwargs)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['submitpages'] = self.get_children().live()
+        return context
 
 class Submit(AbstractEmailForm, AbstractDetailPage):
     class Meta:

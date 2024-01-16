@@ -51,12 +51,13 @@
             <div class="breadcrumb my-5">{% include "snippets/breadcrumb.html" %}</div>
             <h1 class="col-md-6 title my-5">
                 이용약관
-                {% for submit in submitpages %}
-                    <div class="submit-content">
-                        <a href="{% pageurl 'submit_home' %}">submit_home.html로 이동</a>
-                    </div>
-                {% endfor %}
-                <h1 class="col-md-6 .offsett-md-6 my-5">개인정보처리방침</h1>
+                <h1 class="col-md-6 .offsett-md-6 my-5">
+                    {% for submit in submitpages %}
+                        <div class="submit-content">
+                            <a href="{% pageurl submit %}">{{ submit.title }}</a>
+                        </div>
+                    {% endfor %}
+                </h1>
             </h1>
         </div>
         <div class="submit-container">
