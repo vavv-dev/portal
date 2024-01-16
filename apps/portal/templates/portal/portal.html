@@ -1,8 +1,20 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags static wagtailimages_tags %}
 {% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
 {% endblock extra_head %}
 {% block content %}
+    <div class="navbar py-4">
+        <div class="container px-5">
+            <div class="navbar-brand">로고</div>
+            <div class="navbar-nav">
+                <div class="nav-item">
+                    <a class="nav-link" href="https://hrdpuroom.vavv.net">회사소개</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
     <ul>
         {% for menu_page in page.get_children.live.in_menu %}
             <li>
@@ -10,6 +22,7 @@
             </li>
         {% endfor %}
     </ul>
+    -->
     {% if page.content %}
         <div class="content">
             {% for content_block in page.content %}
@@ -20,38 +33,123 @@
                 {% elif content_block.block_type == "html" %}
                     <div class="container">{{ content_block.value|safe }}</div>
                 {% elif content_block.block_type == "page_content" %}
-                    <div class="container">
-                        <div class="row">
-                            {% for page_content_block in content_block.value %}
-                                {# col-12 Course, Program, partner, Industry #}
-                                {% if page_content_block.value.model_string == "course.CourseHome" %}
-                                    <div class="col">
-                                        {% include "snippets/page_content_block_header.html" %}
-                                        {% include "snippets/page_content_block_course.html" %}
-                                    </div>
-                                    {# col-6 Notice, Event, News, Blog, Page, Survey, Submit #}
-                                {% elif page_content_block.value.model_string == "notice.NoticeHome" %}
-                                    <div class="col-md-6">
-                                        {% include "snippets/page_content_block_header.html" %}
-                                        <ul>
+                    {% for page_content_block in content_block.value %}
+                        {# col-12, Industry, Course, Program, partner #}
+                        {% if page_content_block.value.model_string == "industry.IndustryHome" %}
+                            <div class="industry-container">
+                                <div class="industry">
+                                    <div class="container p-5">
+                                        {{ page_content_block.value.description }}
+                                        <div class="row row-cols-5 my-5 industry-row">
                                             {% for page_content in page_content_block.value.page_content %}
-                                                <li>
-                                                    <a href="{{ page_content.url }}">{{ page_content.title }}</a>
-                                                    <p class="text-truncate">{{ page_content.specific.content|striptags|truncatechars:100 }}</p>
-                                                </li>
+                                                {% with page_content=page_content.specific %}
+                                                    <div class="col industry-col">
+                                                        <div class="card industry-card">
+                                                            <a href="{{ page_content.url }}">
+                                                                <div class="industry-image">
+                                                                    {% with page_content.main_image as main_image %}
+                                                                        {% if main_image %}
+                                                                            {% image main_image fill-300x400 %}
+                                                                        {% endif %}
+                                                                    {% endwith %}
+                                                                </div>
+                                                                <p class="industry-title">{{ page_content.title }}</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {% endwith %}
                                             {% endfor %}
-                                        </ul>
+                                        </div>
                                     </div>
-                                {% elif page_content_block.value.model_string == "survey.SurveyHome" %}
-                                    <div class="col-md-6 border">{{ page_content_block.value }}</div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
+                                </div>
+                            </div>
+                        {% elif page_content_block.value.model_string == "course.CourseHome" %}
+                            <div class="col">
+                                {% include "snippets/page_content_block_header.html" %}
+                                {% include "snippets/page_content_block_course.html" %}
+                            </div>
+                            {# col-6 Notice, Event, News, Blog, Page, Survey, Submit #}
+                        {% elif page_content_block.value.model_string == "news.NewsHome" and "blog.BlogHome" %}
+                            <div class="media-room-container">
+                                <div class="media-room">
+                                    <div class="container p-5">
+                                        <div class="row">
+                                            <div class="col col-3">
+                                                <h2>Media</h2>
+                                                <h2>Room</h2>
+                                                <p>푸름인재개발원의</p>
+                                                <p>다양한 소식을 만나보세요.</p>
+                                                <div class="media-room-content">
+                                                    <p>News</p>
+                                                    <p>Blog</p>
+                                                    <p>Youtube</p>
+                                                </div>
+                                            </div>
+                                            <div class="col col-9">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <div class="col-12">111</div>
+                                                            <div class="col-12">111</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">222</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif page_content_block.value.model_string == "partner.PartnerHome" %}
+                            <div class="partner-container">
+                                <div class="partner">
+                                    <div class="container p-5">{{ page_content_block.value.description }}</div>
+                                </div>
+                            </div>
+                        {% elif page_content_block.value.model_string == "notice.NoticeHome" %}
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center">
+                                            {% if page_content_block.value.icon %}
+                                                {% image page_content_block.value.icon height-40 class="me-3" alt="icon" %}
+                                            {% endif %}
+                                            <div class="flex-grow-1">
+                                                <h2>{{ page_content_block.value.page_content_home }}</h2>
+                                            </div>
+                                            <p class="align-self-end">
+                                                <a href="{% pageurl page_content_block.value.page_content_home %}"
+                                                   class="small text-decoration-none">
+                                                    <i class="me-1 fa-solid fa-magnifying-glass"></i>모두 보기
+                                                </a>
+                                            </p>
+                                        </div>
+                                        {% for page_content in page_content_block.value.page_content %}
+                                            <a href="{{ page_content.url }}">
+                                                <div class="notice-list-one">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <p>{{ page_content.title }}</p>
+                                                        </div>
+                                                        <div class="col">
+                                                            <p>{{ page_content.first_published_at|date:"Y. m. d" }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% elif page_content_block.value.model_string == "survey.SurveyHome" %}
+                            <div class="col-md-6 border">{{ page_content_block.value }}</div>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
             {% endfor %}
         </div>
     {% endif %}
+    {% if page.footer %}<div class="footer">{{ page.footer }}</div>{% endif %}
 {% endblock content %}
 {% block extra_body %}
     {{ block.super }}

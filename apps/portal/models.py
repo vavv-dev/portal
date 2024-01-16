@@ -74,7 +74,7 @@ class Portal(Page):
                     page_content = Page.objects.none()
                     for page_content_home in page_content_homes:
                         page_content = page_content.union(
-                            page_content_home.get_children().live().order_by("-id")
+                            page_content_home.get_children().live()
                         )
 
                     tag = page_content_block.value["tag"]

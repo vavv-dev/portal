@@ -1,0 +1,108 @@
+.banner-container {
+  text-align: -webkit-center;
+  margin: 50px 0;
+  .banner {
+    width: 95vw;
+    text-align: start;
+    border-radius: 20px;
+    box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
+    img {
+      border-radius: 20px;
+    }
+  }
+}
+.banner-description {
+  p {
+    margin: 0;
+  }
+  p:first-child {
+    font-weight: 700;
+    color: #5999da;
+  }
+}
+.industry-container {
+  text-align: -webkit-center;
+  margin: 50px 0;
+  .industry {
+    width: 95vw;
+    text-align: start;
+    border: solid 0.5px white;
+    box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    p {
+      margin: 0;
+    }
+    .industry-card {
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      a {
+        text-decoration: none;
+      }
+      .industry-image {
+        img {
+          border-radius: 10px;
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+          &:hover {
+            transform: scale(1.2);
+            transition: all 0.3s ease;
+          }
+        }
+      }
+      .industry-title {
+        position: absolute;
+        top: 90%;
+        color: white;
+        font-weight: 700;
+      }
+    }
+  }
+}
+.media-room-container {
+  text-align: -webkit-center;
+  margin: 50px 0;
+  .media-room {
+    width: 95vw;
+    text-align: start;
+    border: solid 0.5px white;
+    box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    p {
+      margin: 0;
+    }
+    .media-room-content {
+      p {
+        margin: 0;
+        padding: 15px 0;
+      }
+    }
+  }
+}
+.partner-container {
+  text-align: -webkit-center;
+  margin: 50px 0;
+  .partner {
+    width: 95vw;
+    text-align: start;
+    border: solid 0.5px white;
+    box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    background-color: lightblue;
+    p {
+      margin: 0;
+    }
+  }
+}
+.notice-list-one {
+  margin-top: 1.2rem;
+  border: solid 0.5px white;
+  box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
+  border-radius: 25px;
+  padding: 15px 20px;
+  p {
+    margin: 0;
+  }
+}

@@ -1,34 +1,36 @@
 {% load wagtailimages_tags %}
 <div class="{% if content_block.value.fit_container %}container{% endif %}">
-    <div class="swiper position-relative">
-        <div class="swiper-wrapper">
-            {% with content_block.value.height as height %}
-                {% for slide in content_block.value.slides %}
-                    <div class="swiper-slide">
-                        {% if height == "300" %}
-                            {% image slide.value.image max-3000x300 class="w-100 object-fit-cover" alt="slide" %}
-                        {% elif height == "400" %}
-                            {% image slide.value.image max-3000x400 class="w-100 object-fit-cover" alt="slide" %}
-                        {% elif height == "500" %}
-                            {% image slide.value.image max-3000x500 class="w-100 object-fit-cover" alt="slide" %}
-                        {% elif height == "600" %}
-                            {% image slide.value.image max-3000x600 class="w-100 object-fit-cover" alt="slide" %}
-                        {% elif height == "700" %}
-                            {% image slide.value.image max-3000x700 class="w-100 object-fit-cover" alt="slide" %}
-                        {% elif height == "800" %}
-                            {% image slide.value.image max-3000x800 class="w-100 object-fit-cover" alt="slide" %}
-                        {% endif %}
-                        <div class="container position-absolute z-3 translate-middle top-50 start-50 w-100 h-100 p-5 d-flex flex-column justify-content-center">
-                            {{ slide.value.description }}
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endwith %}
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-        <script>
+    <div class="banner-container">
+        <div class="banner">
+            <div class="swiper position-relative">
+                <div class="swiper-wrapper">
+                    {% with content_block.value.height as height %}
+                        {% for slide in content_block.value.slides %}
+                            <div class="swiper-slide">
+                                {% if height == "300" %}
+                                    {% image slide.value.image max-3000x300 class="w-100 object-fit-cover" alt="slide" %}
+                                {% elif height == "400" %}
+                                    {% image slide.value.image max-3000x400 class="w-100 object-fit-cover" alt="slide" %}
+                                {% elif height == "500" %}
+                                    {% image slide.value.image max-3000x500 class="w-100 object-fit-cover" alt="slide" %}
+                                {% elif height == "600" %}
+                                    {% image slide.value.image max-3000x600 class="w-100 object-fit-cover" alt="slide" %}
+                                {% elif height == "700" %}
+                                    {% image slide.value.image max-3000x700 class="w-100 object-fit-cover" alt="slide" %}
+                                {% elif height == "800" %}
+                                    {% image slide.value.image max-3000x800 class="w-100 object-fit-cover" alt="slide" %}
+                                {% endif %}
+                                <div class="container position-absolute z-3 translate-middle top-50 start-50 w-100 h-100 p-5 d-flex flex-column justify-content-center banner-description">
+                                    {{ slide.value.description }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endwith %}
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+                <script>
           (function() {
             const swiper = document.currentScript.parentNode;
             new Swiper(swiper, {
@@ -52,6 +54,8 @@
               },
             });
           }());
-        </script>
+                </script>
+            </div>
+        </div>
     </div>
 </div>
