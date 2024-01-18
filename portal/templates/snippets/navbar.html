@@ -1,0 +1,61 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="nav-container">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">로고</a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-left-item">
+                            <a class="nav-link" href="#">콘텐츠</a>
+                        </li>
+                        <li class="nav-left-item">
+                            <a class="nav-link" href="#">소식 · 미디어</a>
+                        </li>
+                        <li class="nav-left-item">
+                            <a class="nav-link" href="#">사업 분야</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-right-item">
+                            <a class="nav-link" href="https://hrdpuroom.vavv.net">회사소개</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="sub-menu">
+        <div class="container">
+            <ul class="d-flex ps-5">
+                <li>공통역량</li>
+                <li>리더십</li>
+                <li>직무역량</li>
+                <li>병원의료</li>
+                <li>어학</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="base-banner">
+    <div class="banner-img">
+        {% if page.content %}
+            <div class="content">
+                {% for content_block in page.content %}
+                    {% if content_block.block_type == "banner" %}
+                        {% include "snippets/banner.html" %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>

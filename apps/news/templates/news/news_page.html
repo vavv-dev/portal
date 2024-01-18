@@ -2,18 +2,11 @@
 {% load wagtailcore_tags static ratings comments comments_xtd crispy_forms_tags %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/news.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     {{ block.super }}
 {% endblock extra_head %}
 {% block content %}
-    {% if page.content %}
-        <div class="content">
-            {% for content_block in page.content %}
-                {% if content_block.block_type == "banner" %}
-                    {% include "snippets/banner.html" %}
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endif %}
+    {% include "snippets/navbar.html" %}
     <div class="container">
         <div class="breadcrumb my-5">{% include "snippets/breadcrumb.html" %}</div>
         <h1 class="title my-5">{{ page.title }}</h1>

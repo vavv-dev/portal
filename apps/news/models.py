@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import CASCADE, ForeignKey
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel
@@ -20,10 +21,43 @@ class NewsHome(AbstractPageHome):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["newspages"] = self.get_children().live().order_by("-id")
+        page = request.GET.get("page")
+        per_page = request.GET.get("per_page")
+        newspages = self.pagination_wrap(self.get_children().live().order_by("-id"), page, per_page or 7)
+        context["newspages"] = newspages
         return context
 
     # TODO // Pagination "더보기"
+    def pagination_wrap(self, objs, page, per_page):
+        paginator = Paginator(objs, per_page)
+        try:
+            objs = paginator.page(page)
+        except PageNotAnInteger:
+            objs = paginator.page(1)
+        except EmptyPage:
+            objs = paginator.page(paginator.num_pages)
+
+        setattr(
+            paginator,
+            "elided_page_range",
+            paginator.get_elided_page_range(
+                objs.number,
+                on_each_side=3,
+                on_ends=1,
+            ),
+        )
+
+        # numbering
+        setattr(
+            paginator,
+            "base_no",
+            (paginator.count or 0) - int(per_page) * (objs.number - 1) - len(objs.object_list),
+        )
+        return objs
+
+    def serve(self, request, *args, **kwargs):
+        return super().serve(request, *args, **kwargs)
+
 
 class News(AbstractDetailPage):
     class Meta:

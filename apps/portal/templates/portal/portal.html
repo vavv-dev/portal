@@ -2,18 +2,10 @@
 {% load wagtailcore_tags static wagtailimages_tags %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'css/portal.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
 {% endblock extra_head %}
 {% block content %}
-    <div class="navbar py-4">
-        <div class="container px-5">
-            <div class="navbar-brand">로고</div>
-            <div class="navbar-nav">
-                <div class="nav-item">
-                    <a class="nav-link" href="https://hrdpuroom.vavv.net">회사소개</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include "snippets/navbar.html" %}
     <!--
     <ul>
         {% for menu_page in page.get_children.live.in_menu %}
@@ -86,7 +78,18 @@
                                                 </div>
                                             </div>
                                             <div class="col col-9">
-                                                <div class="row">
+                                                <div class="row news-row">
+                                                    {% for page_content in page_content_block.value.page_content|slice:"0:3" %}
+                                                        {% with page_content=page_content.specific %}
+                                                            <div class="col">
+                                                                <div class="row">
+                                                                    <div class="col-12">{{ page_content.title }}</div>
+                                                                </div>
+                                                            </div>
+                                                        {% endwith %}
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="row blog-row d-none">
                                                     <div class="col">
                                                         <div class="row">
                                                             <div class="col-12">111</div>
@@ -107,7 +110,7 @@
                                 </div>
                             </div>
                         {% elif page_content_block.value.model_string == "notice.NoticeHome" %}
-                            <div class="container">
+                            <div class="container p-5">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="d-flex align-items-center">

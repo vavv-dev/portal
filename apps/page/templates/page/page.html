@@ -1,1 +1,22 @@
-{{ page.content }}
+{% extends "base.html" %}
+{% load wagtailcore_tags static ratings comments comments_xtd crispy_forms_tags %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    {{ block.super }}
+{% endblock extra_head %}
+{% block content %}
+    {% include "snippets/navbar.html" %}
+    {% if page.content %}
+        {% for content_block in page.content %}
+            {% if content_block.block_type != "banner" %}
+                <div class="page-content-container">
+                    <div class="container page-content-block">{{ content_block.value }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {{page.content.page_content_home}}
+    {% endif %}
+{% endblock content %}
+{% block extra_body %}
+    {{ block.super }}
+{% endblock extra_body %}

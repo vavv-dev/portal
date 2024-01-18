@@ -2,13 +2,7 @@
   text-align: -webkit-center;
   margin: 50px 0;
   .banner {
-    width: 95vw;
     text-align: start;
-    border-radius: 20px;
-    box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
-    img {
-      border-radius: 20px;
-    }
   }
 }
 .banner-description {
