@@ -35,11 +35,13 @@
                                name="search"
                                placeholder="제목, 내용, 카테고리, 태그, 날짜에서 검색합니다."
                                value="{{ request.GET.search }}"
-                               autocomplete="off"/>
+                               autocomplete="off" />
                         <span class="input-group-append">
                             <button class="p-2 px-3 btn btn-outline-primary border border-start-0 rounded-0"
-                                    type="submit">
+                                    type="submit"
+                                    aria-label="검색">
                                 <i class="fa-solid fa-magnifying-glass"></i>
+                                <span class="visually-hidden">검색</span>
                             </button>
                         </span>
                     </form>
