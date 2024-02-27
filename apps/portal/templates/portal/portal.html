@@ -1,15 +1,68 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 {% block extra_head %}
+    <style>
+      .industry-wrapper {
+        margin-top: 100px;
+        .industry-card {
+          width: 100%;
+          height: 350px;
+          margin: 10px;
+          &:nth-child(2n) {
+            margin-top: 50px;
+          }
+        }
+        .industry-card::after{
+          content: "";
+          background-color: red;
+        }
+      }
+      .notice-wrapper {
+        margin-top: 100px;
+        ul {
+          padding-left: 0;
+          list-style: none;
+        }
+        a {
+          text-decoration: none;
+          &:hover {
+            color: black;
+            text-decoration: underline;
+          }
+        }
+        .notice-title, .notice-date {
+          color: #707070;
+        }
+        .notice-date {
+          float: right;
+        }
+      }
+      .more-text, .fa-angle-right {
+        color: #363636;
+      }
+      .more-link:hover {
+        text-decoration: underline !important;
+        text-decoration-color: #363636 !important;
+      }
+      .contact-box {
+        height: 300px;
+        margin-top: 100px;
+        background-color: #363636;
+        position: relative;
+        .contact-text {
+          color: white;
+          position: absolute;
+          top: 33%;
+          left: 50px;
+          .contact-title {
+            font-size: 2rem;
+            font-weight: bold;
+          }
+        }
+      }
+    </style>
 {% endblock extra_head %}
 {% block content %}
-    <ul>
-        {% for menu_page in page.get_children.live.in_menu %}
-            <li>
-                <a href="{% pageurl menu_page %}" class="nav-link">{{ menu_page.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
     {% if page.content %}
         <div class="content">
             {% for content_block in page.content %}
@@ -29,15 +82,29 @@
                                         {% include "snippets/page_content_block_header.html" %}
                                         {% include "snippets/page_content_block_course.html" %}
                                     </div>
+                                {% elif page_content_block.value.model_string == "industry.IndustryHome" %}
+                                    <div class="container industry-wrapper">
+                                                  {{page_content_block.value}}
+                                                  {{page_content.page_content.0.value.slides.0.value.image.url}}
+                                        <h2 class="fw-bold">{{ page_content_block.value.page_content_home }}</h2>
+                                        <div class="row rows-col-4">
+                                            {% for page_content in page_content_block.value.page_content %}
+                                                <div class="col card industry-card justify-content-center text-center">
+                                                  {{page_content}}
+                                                  {{page_content.content.0.value.slides.0.value.image.url}}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                     {# col-6 Notice, Event, News, Blog, Page, Survey, Submit #}
                                 {% elif page_content_block.value.model_string == "notice.NoticeHome" %}
-                                    <div class="col-md-6">
+                                    <div class="notice-wrapper col-md-6">
                                         {% include "snippets/page_content_block_header.html" %}
                                         <ul>
-                                            {% for page_content in page_content_block.value.page_content %}
-                                                <li>
-                                                    <a href="{{ page_content.url }}">{{ page_content.title }}</a>
-                                                    <p class="text-truncate">{{ page_content.specific.content|striptags|truncatechars:100 }}</p>
+                                            {% for page_content in page_content_block.value.page_content|slice:"0:3" %}
+                                                <li class="mb-2">
+                                                    <a class="notice-title" href="{{ page_content.url }}">{{ page_content.title }}</a>
+                                                    <span class="notice-date">{{ page_content.first_published_at|date:"Y. m. d" }}</span>
                                                 </li>
                                             {% endfor %}
                                         </ul>
@@ -52,6 +119,20 @@
             {% endfor %}
         </div>
     {% endif %}
+    <div class="container contact-box">
+        <div class="contact-text">
+            <p class="contact-title">문의하기</p>
+            <div class="btn btn-dark contact-btn">교육 문의하기</div>
+            <div class="btn btn-light contact-btn">학습시스템 바로가기</div>
+        </div>
+    </div>
+    <ul>
+        {% for menu_page in page.get_children.live.in_menu %}
+            <li>
+                <a href="{% pageurl menu_page %}" class="nav-link">{{ menu_page.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
 {% block extra_body %}
     {{ block.super }}

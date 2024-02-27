@@ -8,6 +8,18 @@ class NoticeHome(AbstractPageHome):
 
     subpage_types = ["Notice"]
 
+    def get_template(self, request, *args, **kwargs):
+        return "notice/notice_home.html"
+
+    def get_landing_page_template(self, *args, **kwargs):
+        return self.get_template(*args, **kwargs)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        noticepages = self.get_children().live().order_by("-id")
+        context["noticepages"] = noticepages
+        return context
+
 
 class Notice(AbstractDetailPage):
     class Meta:
@@ -16,3 +28,9 @@ class Notice(AbstractDetailPage):
 
     parent_page_types = ["NoticeHome"]
     subpage_types = []
+
+    def get_template(self, request, *args, **kwargs):
+        return "news/news_page.html"
+
+    def get_landing_page_template(self, *args, **kwargs):
+        return self.get_template(*args, **kwargs)

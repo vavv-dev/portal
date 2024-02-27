@@ -1,1 +1,12 @@
-{{ page.content }}
+{% extends "base.html" %}
+{% block content %}
+    {% if page.content %}
+        <div class="content">
+            {% for content_block in page.content %}
+                {% if content_block.block_type == "banner" %}
+                    {% include "snippets/banner.html" %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock content %}
