@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load wagtailimages_tags wagtailcore_tags static ratings comments comments_xtd %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/notice.css' %}" />
+    {% if page.allow_rating %}
+        <link rel="stylesheet"
+              href="{% static 'star-ratings/css/star-ratings.css' %}"/>
+        {{ block.super }}
+    {% endif %}
+{% endblock extra_head %}
+{% block content %}
+    <div class="position-relative dark-overlay">
+        <div class="banner-opacity">
+            {% image page.get_parent.content.0.value.slides.0.value.image max-3000x400 class="w-100 object-fit-cover" alt="slide" %}
+        </div>
+        <div class="other-title-area container position-absolute z-3 translate-middle top-50 start-50 w-100 h-100 p-5 d-flex flex-column justify-content-center">
+            <p class="other-title">{{ page.get_parent.title }}</p>
+            <div class="other-description">{{ page.get_parent.content.0.value.slides.0.value.description }}</div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row notice-table-row my-4 my-md-5">
+            <div class="col col-md-2 left-side-bar">
+                <div class="lsb-title">
+                    <h5 class="m-0 fw-bold">소식 미디어</h5>
+                </div>
+                <div class="lsb-body">
+                    <ul class="lsb-list-wrap">
+                        <li class="lsb-list fw-bold" style="color: #ffbd29;">공지사항</li>
+                        <a href="{% slugurl 'faq' %}">
+                            <li class="lsb-list">FAQ</li>
+                        </a>
+                        <a href="{% slugurl 'news' %}">
+                            <li class="lsb-list">뉴스</li>
+                        </a>
+                        <a href="{% slugurl 'blog' %}">
+                            <li class="lsb-list">블로그</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col col-md-9">
+                <h5 class="detail-title mb-3 fw-bold">{{ page.title }}</h5>
+                <ul class="information">
+                    <li class="modified small">작성일: {{ page.first_published_at|date:"Y. m. d" }}</li>
+                </ul>
+                {% if page.content %}
+                    <div class="content py-4">
+                        {% for content_block in page.content %}
+                            {% if content_block.block_type != "banner" %}{{ content_block.value }}{% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <ul class="navigation py-4">
+                    {% with page.get_prev_siblings.live.first as prev %}
+                        {% if prev %}
+                            <li class="small">
+                                <a href="{% pageurl prev %}">이전 글: {{ prev.title }}</a>
+                            </li>
+                        {% endif %}
+                    {% endwith %}
+                    {% with page.get_next_siblings.live.first as next %}
+                        {% if next %}
+                            <li class="small">
+                                <a href="{% pageurl next %}">다음 글: {{ next.title }}</a>
+                            </li>
+                        {% endif %}
+                    {% endwith %}
+                </ul>
+                <div class="btn-area container">
+                    <div class="btn back-btn">
+                        <a href="{% pageurl page.get_parent %}">목록</a>
+                    </div>
+                </div>
+            </div>
+            {% block child_content %}
+            {% endblock child_content %}
+        </div>
+    </div>
+{% endblock content %}
+{% block extra_body %}
+    {{ block.super }}
+{% endblock extra_body %}

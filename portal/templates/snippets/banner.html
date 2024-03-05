@@ -72,7 +72,7 @@
         <div class="swiper-wrapper">
             {% with content_block.value.height as height %}
                 {% for slide in content_block.value.slides %}
-                <!-- portal banner height 700px -->
+                    <!-- portal banner height 700px -->
                     {% if page.slug == "portal" %}
                         <div class="swiper-slide">
                             <div class="banner-opacity">
@@ -94,7 +94,7 @@
                                 <div class="main-description">{{ slide.value.description }}</div>
                             </div>
                         </div>
-                    <!-- page banner height 500px -->
+                        <!-- page banner height 500px -->
                     {% elif page.get_parent.slug == "page" %}
                         <div class="swiper-slide">
                             {% if height == "300" %}
@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                    <!-- other banner height 600px -->
+                        <!-- other banner height 600px -->
                     {% else %}
                         <div class="swiper-slide">
                             <div class="banner-opacity">
@@ -139,10 +139,17 @@
                                     {% image slide.value.image max-3000x800 class="w-100 object-fit-cover" alt="slide" %}
                                 {% endif %}
                             </div>
-                            <div class="other-title-area container position-absolute z-3 translate-middle top-50 start-50 w-100 h-100 p-5 d-flex flex-column justify-content-center">
-                                <p class="other-title">{{ page.title }}</p>
-                                <div class="other-description">{{ slide.value.description }}</div>
-                            </div>
+                            {% if page.get_children %}
+                                <div class="other-title-area container position-absolute z-3 translate-middle top-50 start-50 w-100 h-100 p-5 d-flex flex-column justify-content-center">
+                                    <p class="other-title">{{ page.title }}</p>
+                                    <div class="other-description">{{ slide.value.description }}</div>
+                                </div>
+                            {% else %}
+                                <div class="other-title-area container position-absolute z-3 translate-middle top-50 start-50 w-100 h-100 p-5 d-flex flex-column justify-content-center">
+                                    <p class="other-title">{{ page.get_parent.title }}</p>
+                                    <div class="other-description">{{ slide.value.description }}</div>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}

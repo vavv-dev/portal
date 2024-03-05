@@ -30,7 +30,10 @@ class Notice(AbstractDetailPage):
     subpage_types = []
 
     def get_template(self, request, *args, **kwargs):
-        return "news/news_page.html"
+        return "notice/notice_detail.html"
 
     def get_landing_page_template(self, *args, **kwargs):
         return self.get_template(*args, **kwargs)
+
+    def get_parent(self, update=False):
+        return NoticeHome.objects.first()

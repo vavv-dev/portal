@@ -80,8 +80,9 @@ class PageTable(SelectTableMixin):
 
     priority = Column(verbose_name="")
     title = Column(verbose_name="제목")
+    first_published_at = Column(verbose_name="작성일")
     last_published_at = Column(verbose_name="수정")
-    rating_count = Column(verbose_name="추천")
+    # rating_count = Column(verbose_name="추천")
     hit_count = Column(verbose_name="조회")
 
     def render_priority(self, value, record):
@@ -91,7 +92,11 @@ class PageTable(SelectTableMixin):
         value = escape(value)
         if record.comment_count:
             value += f" <span>({record.comment_count})</span>"
-        return format_html(f'<a href="{record.url}">{value}</a>')
+        return format_html(f'<div class="table-title-ellipsis"><a class="table-title" href="{record.url}">{value}</a></div>')
+
+    def render_first_published_at(self, value, record):
+        formatted_date = record.first_published_at.strftime("%Y. %m. %d.")
+        return formatted_date
 
     def render_last_published_at(self, value, record):
         return naturaltime(record.last_published_at)

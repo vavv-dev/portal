@@ -1,56 +1,8 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags utils %}
+{% load static wagtailcore_tags wagtailimages_tags utils %}
 {% load render_table from django_tables2 %}
 {% block extra_head %}
-    <style>
-    body {
-      letter-spacing: -0.05rem;
-    }
-    a {
-      text-decoration: none;
-      color: black;
-    }
-    .notice-date {
-      color: rgb(119, 119, 119);
-      font-size: 15px;
-    }
-    .notice-list-row {
-      margin: 0;
-      .notice-list-one {
-        justify-content: space-between;
-        margin-top: 1.2rem;
-        border: solid 0.5px white;
-        box-shadow: 8px 2px 62px rgba(0, 0, 0, 0.07);
-        border-radius: 25px;
-        padding: 30px 20px;
-
-        .notice-list-col-date {
-          text-align: end;
-        }
-        .notice-title {
-          font-weight: 700;
-          font-size: 20px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-
-          @media (max-width: 768px) {
-            font-size: 17px;
-          }
-        }
-      }
-      .notice-list-one:hover {
-        border: solid 0.5px rgba(17, 17, 17, 0.16);
-        background-color: rgba(215, 221, 229, 0.5);
-        transition: all 0.3s;
-      }
-      @media (min-width: 1400px) {
-        margin: 0px 40px;
-      }
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/notice.css' %}" />
 {% endblock extra_head %}
 {% block content %}
     {% if page.content %}
@@ -62,34 +14,45 @@
             {% endfor %}
         </div>
     {% endif %}
-    <div class="tables2 my-5">
-        {% include "snippets/per_page.html" %}
-        {% render_table page_table %}
-    </div>
-    <div class="container">
-        {% if page.content %}
-            <div class="content">
-                {% for content_block in page.content %}
-                    {% if content_block.block_type != "banner" %}{{ content_block.value }}{% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
-        <div class="row notice-list-row">
-            {% for notice in noticepages %}
-                {% with notice=notice.specific %}
-                    <h3>{{ notice.hit_count.total_hits }}</h3>
-                    <a href="{{ notice.url }}">
-                        <div class="row notice-list-one">
-                            <div class="col-9 notice-list-col-title">
-                                <span class="notice-title">{{ notice.title }}</span>
-                            </div>
-                            <div class="col-3 notice-list-col-date">
-                                <span class="notice-date">{{ notice.first_published_at|date:"Y. m. d" }}</span>
-                            </div>
-                        </div>
-                    </a>
-                {% endwith %}
-            {% endfor %}
+    <div class="container-fluid sm-side-bar">
+        <div class="row ssb-row">
+            <div class="col fw-bold ssb-menu" style="color: #ffbd29;">공지사항</div>
+            <a href="{% slugurl 'faq' %}" class="col">
+                <div class="ssb-list">FAQ</div>
+            </a>
+            <a href="{% slugurl 'news' %}" class="col">
+                <div class="ssb-list">뉴스</div>
+            </a>
+            <a href="{% slugurl 'blog' %}" class="col">
+                <div class="ssb-list">블로그</div>
+            </a>
         </div>
     </div>
+    <div class="container">
+        <div class="row notice-table-row my-4 my-md-5">
+            <div class="col col-md-2 left-side-bar">
+                <div class="lsb-title">
+                    <h5 class="m-0 fw-bold">소식 미디어</h5>
+                </div>
+                <div class="lsb-body">
+                    <ul class="lsb-list-wrap">
+                        <li class="lsb-list fw-bold" style="color: #ffbd29;">공지사항</li>
+                        <a href="{% slugurl 'faq' %}">
+                            <li class="lsb-list">FAQ</li>
+                        </a>
+                        <a href="{% slugurl 'news' %}">
+                            <li class="lsb-list">뉴스</li>
+                        </a>
+                        <a href="{% slugurl 'blog' %}">
+                            <li class="lsb-list">블로그</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col col-md-9">
+                <div class="tables2 notice-table">{% render_table page_table %}</div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
