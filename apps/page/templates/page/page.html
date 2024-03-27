@@ -5,6 +5,22 @@
             {% for content_block in page.content %}
                 {% if content_block.block_type == "banner" %}
                     {% include "snippets/banner.html" %}
+                {% elif content_block.block_type == "richtext" %}
+                <div class="container">{{ content_block }}</div>
+                {% elif content_block.block_type == "page_content" %}
+                    <div class="container">
+                        <div class="row">
+                            {% for page_content_block in content_block.value %}
+                                {# col-12 Course, Program, partner, Industry #}
+                                {% if page_content_block.value.model_string == "course.CourseHome" %}
+                                    <div class="col">
+                                        {% include "snippets/page_content_block_header.html" %}
+                                        {% include "snippets/page_content_block_course.html" %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 {% endif %}
             {% endfor %}
         </div>

@@ -1,0 +1,360 @@
+{% load static wagtailimages_tags wagtailcore_tags utils %}
+{% block extra_head %}
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <script type="text/javascript" src="{% static 'js/navbar.js' %}"></script>
+{% endblock extra_head %}
+<div class="navbar navbar-default navbar-static-top">
+    <div class="container navbar-expand-lg p-3 p-md-0 m-0">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://portal.localhost:8000/">
+                <img alt="Logo"
+                     height=""
+                     width=""
+                     src="https://hrdpuroom-index.vavv.net/logo-dark.png" />
+            </a>
+        </div>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end"
+             tabindex="-3"
+             id="offcanvasNavbar"
+             aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <a class="offcanvas-title navbar-brand"
+                   href="#"
+                   id="offcanvasNavbarLabel">
+                    <img alt="Logo"
+                         height=""
+                         width=""
+                         src="https://hrdpuroom-index.vavv.net/logo-dark.png" />
+                </a>
+                <button type="button"
+                        class="btn-close p-4"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body dropdown">
+                <ul class="navbar-nav">
+                    {% if page.get_ancestors|length == 2 %}
+                        {% for ancester in page.get_ancestors %}
+                            {% for page in ancester.get_children %}
+                                {% if page.slug == "page" or page.slug == "industry" or page.slug == "blog" %}
+                                    <li>
+                                        <a href="">{{ page.title }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% elif page.get_ancestors|length == 3 %}
+                        {% for ancester in page.get_ancestors %}
+                            {% for page in ancester.get_children %}
+                                {% if page.slug == "page" or page.slug == "industry" or page.slug == "blog" %}
+                                    <li>
+                                        <a href="">{{ page.title }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        {% for page in page.get_children %}
+                            {% if page.slug == "page" or page.slug == "industry" or page.slug == "blog" %}
+                                <li>
+                                    <a href="">{{ page.title }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <div class="dropdown-menu">
+                    <ul class="container">
+                        {% if page.get_ancestors|length == 2 %}
+                            {% for ancester in page.get_ancestors %}
+                                {% for page in ancester.get_children %}
+                                    {% if page.slug == "page" %}
+                                        <li class="col-sm-3">
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% elif page.title == "교육 분야" %}
+                                        <li class="col-sm-3">
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% elif page.get_ancestors|length == 3 %}
+                            {% for ancester in page.get_ancestors %}
+                                {% for page in ancester.get_children %}
+                                    {% if page.slug == "page" %}
+                                        <li class="col-sm-3">
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% elif page.slug == "industry" %}
+                                        <li class="col-sm-3">
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for page in page.get_children %}
+                                {% if page.slug == "page" %}
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">{{ page.title }}</li>
+                                            {% for page in page.get_children %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% elif page.title == "교육 분야" %}
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">{{ page.title }}</li>
+                                            {% for page in page.get_children %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <li class="col-sm-3">
+                            <ul>
+                                <li class="dropdown-header">소식/미디어</li>
+                                {% if page.get_ancestors|length == 2 %}
+                                    {% for ancester in page.get_ancestors %}
+                                        {% for page in ancester.get_children %}
+                                            {% if page.title == "블로그" or page.title == "뉴스" or page.title == "공지 사항" or page.title == "이벤트" %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% elif page.get_ancestors|length == 3 %}
+                                    {% for ancester in page.get_ancestors %}
+                                        {% for page in ancester.get_children %}
+                                            {% if page.title == "블로그" or page.title == "뉴스" or page.title == "공지 사항" or page.title == "이벤트" %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for page in page.get_children %}
+                                        {% if page.title == "블로그" or page.title == "뉴스" or page.title == "공지 사항" or page.title == "이벤트" %}
+                                            <li>
+                                                <a href="{% pageurl page %}">{{ page.title }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <div class="d-none d-lg-block col-md-3">
+                            <img width="280px"
+                                 height="250px"
+                                 style="border-radius: 10px"
+                                 src="https://plus.unsplash.com/premium_photo-1675356073922-24e1fa167d9a?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3://plus.unsplash.com/premium_photo-1675356073922-24e1fa167d9a?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                        </div>
+                        <div class="col-sm-3 d-block d-lg-none">
+                            <img width="170px"
+                                 height="250px"
+                                 style="border-radius: 10px;
+                                        object-fit: cover"
+                                 src="https://plus.unsplash.com/premium_photo-1675356073922-24e1fa167d9a?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3://plus.unsplash.com/premium_photo-1675356073922-24e1fa167d9a?q=80&w=2998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                        </div>
+                    </ul>
+                </div>
+                <div class="offcanvas-menu">
+                    <ul class="external-link">
+                        <li>
+                            <a href="https://safety.vavv.net/">산업안전 ↗️</a>
+                        </li>
+                        <li>
+                            <a href="https://udacitypartner.com/">유다시티 ↗️</a>
+                        </li>
+                        <div class="navBtn">
+                            <a href="https://www.hrdpuroom.net/">LMS</a>
+                        </div>
+                    </ul>
+                    <ul class="container">
+                        {% if page.get_ancestors|length == 2 %}
+                            {% for ancester in page.get_ancestors %}
+                                {% for page in ancester.get_children %}
+                                    {% if page.slug == "page" %}
+                                        <li>
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% elif page.title == "교육 분야" %}
+                                        <li>
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% elif page.get_ancestors|length == 3 %}
+                            {% for ancester in page.get_ancestors %}
+                                {% for page in ancester.get_children %}
+                                    {% if page.slug == "page" %}
+                                        <li>
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% elif page.slug == "industry" %}
+                                        <li>
+                                            <ul>
+                                                <li class="dropdown-header">{{ page.title }}</li>
+                                                {% for page in page.get_children %}
+                                                    <li>
+                                                        <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for page in page.get_children %}
+                                {% if page.slug == "page" %}
+                                    <li>
+                                        <ul>
+                                            <li class="dropdown-header">{{ page.title }}</li>
+                                            {% for page in page.get_children %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% elif page.title == "교육 분야" %}
+                                    <li>
+                                        <ul>
+                                            <li class="dropdown-header">{{ page.title }}</li>
+                                            {% for page in page.get_children %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <li>
+                            <ul>
+                                <li class="dropdown-header">소식/미디어</li>
+                                {% if page.get_ancestors|length == 2 %}
+                                    {% for ancester in page.get_ancestors %}
+                                        {% for page in ancester.get_children %}
+                                            {% if page.title == "블로그" or page.title == "뉴스" or page.title == "공지 사항" or page.title == "이벤트" %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% elif page.get_ancestors|length == 3 %}
+                                    {% for ancester in page.get_ancestors %}
+                                        {% for page in ancester.get_children %}
+                                            {% if page.title == "블로그" or page.title == "뉴스" or page.title == "공지 사항" or page.title == "이벤트" %}
+                                                <li>
+                                                    <a href="{% pageurl page %}">{{ page.title }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for page in page.get_children %}
+                                        {% if page.title == "블로그" or page.title == "뉴스" or page.title == "공지 사항" or page.title == "이벤트" %}
+                                            <li>
+                                                <a href="{% pageurl page %}">{{ page.title }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="external-link">
+            <ul>
+                <li>
+                    <a href="https://safety.vavv.net/">산업안전 ↗️</a>
+                </li>
+                <li>
+                    <a href="https://udacitypartner.com/">유다시티 ↗️</a>
+                </li>
+                <div class="navBtn">
+                    <a href="https://www.hrdpuroom.net/">LMS</a>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>

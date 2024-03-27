@@ -44,6 +44,7 @@
         <body class="d-flex flex-column h-100 {% block body_class %}{% endblock body_class %}">
             {% wagtailuserbar %}
             <main class="flex-shrink-0">
+                {% include "./snippets/navbar.html" %}
                 {% block content %}
                 {% endblock content %}
             </main>

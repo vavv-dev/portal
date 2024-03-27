@@ -84,14 +84,14 @@
                                     </div>
                                 {% elif page_content_block.value.model_string == "industry.IndustryHome" %}
                                     <div class="container industry-wrapper">
-                                                  {{page_content_block.value}}
-                                                  {{page_content.page_content.0.value.slides.0.value.image.url}}
+                                        {{ page_content_block.value }}
+                                        {{ page_content.page_content.0.value.slides.0.value.image.url }}
                                         <h2 class="fw-bold">{{ page_content_block.value.page_content_home }}</h2>
                                         <div class="row rows-col-4">
                                             {% for page_content in page_content_block.value.page_content %}
                                                 <div class="col card industry-card justify-content-center text-center">
-                                                  {{page_content}}
-                                                  {{page_content.content.0.value.slides.0.value.image.url}}
+                                                    {{ page_content }}
+                                                    {{ page_content.content.0.value.slides.0.value.image.url }}
                                                 </div>
                                             {% endfor %}
                                         </div>
